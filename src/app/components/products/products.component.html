@@ -1,0 +1,18 @@
+<!--
+    en esta linea se especifica eque se esta escuchando el evento addedProduct y lo va a recibir 
+    onAddToShopingCart()
+    y se le esta pasando con $event dentro del metodo 
+    (addedProduct)="onAddToShopingCart($event)"
+-->
+<p>Cantidad de productos {{myShopingCart.length}}</p>
+<p>
+    Total: ${{total}}
+</p>
+<div class="products--grid">
+    @for (product of products; track $index) {
+        <app-product 
+            [product]="product"           
+            (addedProduct)="onAddToShopingCart($event)"
+        ></app-product>
+    }
+</div>

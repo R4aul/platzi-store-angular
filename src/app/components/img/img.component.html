@@ -1,0 +1,7 @@
+@if (img) {
+    <img (load)="imgLoading()" (error)="imgError()"  width="200" [src]="img">
+    <h1>{{COUNTER}}</h1>
+}@else {
+    <p>Image not found</p>
+    <h1>{{COUNTER}}</h1>
+}
