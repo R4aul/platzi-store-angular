@@ -7,6 +7,14 @@
     font-family: 'Quicksand', 'sans-serif';
 }
 
+.container {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .products{
     app-image{
         img{

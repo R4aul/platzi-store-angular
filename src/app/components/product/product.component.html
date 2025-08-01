@@ -1,4 +1,6 @@
-<img [src]="product.image" alt="">
+<div class="crop-image">
+    <img [src]="product.image" alt="">
+</div>
 <h2>{{product.price }}</h2>
 <p>{{product.title}}</p>
 <button (click)="onAddToCard()">Add cart</button>
