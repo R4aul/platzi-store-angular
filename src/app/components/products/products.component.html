@@ -4,6 +4,7 @@
     y se le esta pasando con $event dentro del metodo 
     (addedProduct)="onAddToShopingCart($event)"
 -->
+<button (click)="toggleProductDetail()">Clic</button>
 <div class="container">
     <p>Cantidad de productos {{myShopingCart.length}}</p>
     <p>
@@ -11,10 +12,18 @@
     </p>
     <div class="products--grid">
         @for (product of products; track $index) {
-            <app-product 
-                [product]="product"           
-                (addedProduct)="onAddToShopingCart($event)"
-            ></app-product>
+        <app-product [product]="product" (addedProduct)="onAddToShopingCart($event)"
+            (showProduct)="onShowDetail($event)"></app-product>
         }
+    </div>
+    <div class="product-detail" [class.active]="showProductDetail">
+        <div *ngIf="productChosen">
+            <button (click)="toggleProductDetail()">Close</button>
+            Contenido
+            <h1>{{productChosen.title}}</h1>
+            <p>{{productChosen.description}}</p>
+            <button (click)="updateProduct()">Editar</button>
+            <button (click)="deleteProduct()">Eliminar</button>
+        </div>
     </div>
 </div>

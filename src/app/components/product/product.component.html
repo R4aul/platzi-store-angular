@@ -1,6 +1,7 @@
 <div class="crop-image">
-    <img [src]="product.image" alt="">
+    <img *ngIf="product.images.length > 0" [src]="product.images[0]" alt="">
 </div>
 <h2>{{product.price }}</h2>
 <p>{{product.title}}</p>
+<button (click)="showDetail()">Ver detalle</button>
 <button (click)="onAddToCard()">Add cart</button>
