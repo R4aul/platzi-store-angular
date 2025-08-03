@@ -5,6 +5,8 @@ import { StoreService } from "../../services/store.service";
 import { ProductsService } from "../../services/products.service";
 import {CommonModule} from "@angular/common"
 import { CreateProductDTO, UpdateProductDTO } from '../../DTO/productDTO';
+import { switchMap } from "rxjs/operators"
+import { zip } from "rxjs"
 
 @Component({
   selector: 'app-products',
@@ -79,6 +81,30 @@ export class ProductsComponent implements OnInit {
         window.alert(error) 
         this.statusDetail = 'error';
       }
+    });
+  }
+
+  readAndUpdate(id : string){
+    this.productsServices.getProduct(id)
+    // evita el callback hell donde el switchMap ase que dependa una de otra
+    .pipe(
+      switchMap((product)=> this.productsServices.update(product.id, {title:"change"})),
+      //switchMap((product)=> this.productsServices.update(product.id, {title:"change"})), //other method
+      //switchMap((product)=> this.productsServices.update(product.id, {title:"change"})), //other method
+    )
+    .subscribe({
+      next:(response)=>{
+        console.log(response)
+      }
+    });
+
+    //pudo aser varias solisitudes y lo devuelve en un array donde las peticiones las corre en paralelo 
+    this.productsServices.fetchReadAndUpdate(id,{title:"nuevo"})
+    .subscribe({
+      next(value) {
+       const read = value[0]; 
+       const update = value[1]; 
+      },
     });
   }
 

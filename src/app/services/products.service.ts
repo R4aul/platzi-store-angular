@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpErrorResponse, HttpStatusCode } from "@angu
 import { Product } from '../models/product';
 import { CreateProductDTO, UpdateProductDTO } from '../DTO/productDTO';
 import { catchError, retry} from "rxjs/operators";
-import { throwError, map } from "rxjs";
+import { throwError, map, zip } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +55,14 @@ export class ProductsService {
         }
         return throwError("Ups algo salio mal")
       })
+    );
+  }
+
+  fetchReadAndUpdate(id : string, product : UpdateProductDTO){
+    //pudo aser varias solisitudes y lo devuelve en un array donde las peticiones las corre en paralelo 
+    return zip(
+      this.getProduct(id),
+      this.update(id, product)
     );
   }
 
