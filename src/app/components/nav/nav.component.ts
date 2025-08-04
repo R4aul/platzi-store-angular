@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {StoreService} from "../../services/store.service";
+import {AuthService} from "../../services/auth.service";
+import { User } from '../../models/user';
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-nav',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
@@ -11,9 +14,12 @@ export class NavComponent implements OnInit {
 
   public activeMenu = false;
   public counter = 0;
+  public token = '';
+  public profile : User | null = null;
 
   constructor(
-    private storeServices : StoreService
+    private storeServices : StoreService,
+    private authSservice : AuthService
   ){}
 
   ngOnInit(): void {
@@ -24,5 +30,25 @@ export class NavComponent implements OnInit {
 
   toggleMenu(){
     this.activeMenu = !this.activeMenu;
+  }
+
+  login(){
+    this.authSservice.login("raul@gamil.com", 'password')
+    .subscribe({
+      next:(response)=>{
+        this.token = response.access_token;
+        console.log(this.token);
+        this.getProfile()
+      },
+    });
+  }
+
+  getProfile(){
+    this.authSservice.profile(this.token)
+    .subscribe({
+      next:(user)=>{
+        this.profile = user; 
+      },
+    });
   }
 }

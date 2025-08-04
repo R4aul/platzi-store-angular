@@ -17,10 +17,11 @@ export class AuthService {
   }
 
   profile(token:string){
-    const headers = new HttpHeaders();
-    headers.set('Authorization', 'Bearer '+token);
+    const headers = new HttpHeaders({
+      "Authorization": `Bearer ${token}`
+    });
     return this.httpClient.get<User>(this.apiUrl+'/profile',{
-      headers
+      headers:headers
     });
   }
 
