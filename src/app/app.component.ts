@@ -6,6 +6,7 @@ import { ProductsComponent } from "./components/products/products.component";
 import { NavComponent } from "./components/nav/nav.component";
 import { AuthService } from "./services/auth.service";
 import { UsersService } from "./services/users.service";
+import { FilesService } from "./services/files.service";
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
   constructor(
     private authService : AuthService,
     private userService : UsersService,
+    private fileService : FilesService
   ){}
 
   onLoaded() {
@@ -54,6 +56,14 @@ export class AppComponent {
     .subscribe({
       next:(response) => {
        console.log(response);
+      },
+    })
+  }
+
+  download(){
+    this.fileService.getFile("my.pdf","https://young-sands-07814.herokuapp.com/api/files/dummy.pdf","apllication/pdf").subscribe({
+      next(value) {
+        
       },
     })
   }
