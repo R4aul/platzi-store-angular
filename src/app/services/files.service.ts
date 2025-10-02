@@ -3,10 +3,19 @@ import { HttpClient } from "@angular/common/http";
 import { saveAs } from "file-saver";
 import { tap, map } from 'rxjs';
 
+interface File{
+  originalname : string,
+  filename:string,
+  location:string
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class FilesService {
+
+  private apiUrl = 'https://young-sands-07814.herokuapp.com/api/files';
 
   constructor(
     private httpClient : HttpClient
@@ -22,4 +31,16 @@ export class FilesService {
       map(()=> true)
     );
   }
+
+  uploadFile(file : Blob){
+    const dto = new FormData();
+    dto.append("file", file)
+    return this.httpClient.post<File>(this.apiUrl+"/upload", dto,{
+      //revisar si el backend lo necesita si no no es necesario
+      //headers:{
+      //  "Content-type":"multipart/form-data"
+      //}
+    });
+  }
+
 }

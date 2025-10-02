@@ -7,16 +7,18 @@ import { NavComponent } from "./components/nav/nav.component";
 import { AuthService } from "./services/auth.service";
 import { UsersService } from "./services/users.service";
 import { FilesService } from "./services/files.service";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-root',
-  imports: [ FormsModule, ProductsComponent, NavComponent],
+  imports: [ FormsModule, ProductsComponent, NavComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   imgParent = '';
   token = '';
+  imageRta = "";
   constructor(
     private authService : AuthService,
     private userService : UsersService,
@@ -61,10 +63,18 @@ export class AppComponent {
   }
 
   download(){
-    this.fileService.getFile("my.pdf","https://young-sands-07814.herokuapp.com/api/files/dummy.pdf","apllication/pdf").subscribe({
-      next(value) {
-        
-      },
+    this.fileService.getFile("my.pdf","https://young-sands-07814.herokuapp.com/api/files/dummy.pdf","apllication/pdf").subscribe();
+  }
+
+  onUpload(event : Event){
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.item(0);
+    if(file){
+    this.fileService.uploadFile(file).subscribe({
+      next:(response)=>{
+        this.imageRta = response.location; 
+      }
     })
+    }
   }
 }
